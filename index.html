@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cruzadinha Let's Mário | São Paulo Tech School</title>
+  </head>
+  <body>
+    <main>
+      <div class="container">
+        <header>
+          <h1>Cruzadinha Let's Mário</h1>
+          <hr />
+        </header>
+        <div class="banner">
+          <div id="div_information"></div>
+          <div class="box_instrucoes" style="display: flex">
+            <span>
+              <h1>Olá, SPTecher 👋</h1>
+              Clique em "Começar o Jogo" para iniciar uma partida. Perguntas
+              serão exibidas na parte inferior do quadro. Insira a sua resposta
+              na caixa de texto e clique em "Verificar" para conferir a sua
+              resposta. A partida acaba quando as 16 questões forem respondidas
+            </span>
+            <br /><br />
+            <button id="bt_start" onclick="start()">Começar o jogo</button>
+            <button
+              class="button"
+              style="display: none"
+              id="bt_destroyGame"
+              onclick="destroyGrid()"
+            >
+              Encerrar o Jogo
+            </button>
+          </div>
+
+          <!-- ------------------------------------------------------------------------------------ -->
+
+          <div class="container_jogo" style="display: none">
+            <!-- <input maxlength="1" type="text" style="height: 30px; width: 30px; border-radius: 4px; border: none; outline: none; text-align: center; font-family: Poppins; font-size: larger; font-weight: 600"> -->
+          </div>
+        </div>
+
+        <footer>
+          <hr />
+          <h1>Desenvolvido por:</h1>
+          <a href="https://github.com/souMarioJunior"><b>@souMarioJunior</b></a>
+          <a href="https://github.com/leticia-rsm"><b>@leticia-rsm</b></a>
+        </footer>
+      </div>
+    </main>
+  </body>
+</html>
+
+<script>
+  var cruzadinha = [
+    0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0,
+    0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0,
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+    0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0,
+    0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+    0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+    0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0,
+    0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0,
+    0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0,
+    0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0,
+    0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+    0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0,
+    0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0
+  ]
+  
+  var instrucoes = document.querySelector(".box_instrucoes");
+  var containerJogo = document.querySelector(".container_jogo");
+  var legenda = 0;
+  
+  function start() {
+    instrucoes.style.display = "none";
+    containerJogo.style.display = "flex";
+    var linhas = "";
+    var celulas = "";
+    var colunas = "";
+
+    for (var contador = 0; contador < 15; contador++) {
+      legenda++
+      linhas += `
+      <div class="linha_input input_${contador}"></div>
+      `;
+      celulas += `
+            <input maxlength="1" type="text" placeholder="${legenda}">
+      `;
+    }
+
+    for (contador = 0; contador < 15; contador++) {
+      colunas += `<div class="linha_input input_${contador}">${celulas}</div>`;
+    }
+
+    containerJogo.innerHTML = colunas;
+  }
+
+</script>
+
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+  body {
+    background-color: #1c1917;
+    margin: 0;
+    font-family: Poppins, sans-serif;
+    color: white;
+  }
+
+  main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  header {
+    text-align: center;
+    padding-top: 2rem;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    /* border: solid blue; */
+    width: 70%;
+    height: 100vh;
+  }
+
+  .banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+  }
+
+  .box_instrucoes {
+    display: flex;
+    flex-direction: column;
+    border: dotted;
+    /* height: 50vh; */
+    width: 50%;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: justify;
+  }
+
+  button {
+    padding: 1rem 2rem;
+    font-family: Poppins, sans-serif;
+    color: white;
+    font-size: x-large;
+    width: 100%;
+    background-color: crimson;
+    border: none;
+    border-radius: 4px;
+    opacity: 0.9;
+    cursor: pointer;
+  }
+
+  button:hover {
+    opacity: 1;
+  }
+
+  footer {
+    display: flex;
+    flex-direction: column;
+    /* border: solid red; */
+    height: 150px;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+  }
+
+  h1 {
+    padding: 0;
+    margin: 0;
+  }
+
+  hr {
+    width: 100%;
+  }
+
+  a {
+    color: white;
+    /* border: solid red; */
+    padding: 0;
+    margin: 0;
+  }
+
+  .container_jogo {
+    display: flex;
+    flex-direction: column;
+    border: dashed white;
+    border-radius: 8px;
+    height: fit-content;
+    width: 70vh;
+    padding: 1rem;
+  }
+
+  .linha_input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1px;
+    /* border: solid red; */
+    height: 40px;
+    /* box-shadow: 2px 2px 0 red; */
+  }
+
+  input {
+    box-shadow: 3px 3px 0 gainsboro;
+    height: 35px;
+    width: 35px;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    text-align: center;
+    font-family: Poppins;
+    font-size: larger;
+    font-weight: 600;
+  }
+
+  input:hover {
+    background-color: rgb(255, 190, 203);
+    box-shadow: 3px 3px 0 rgb(255, 74, 110);
+  }
+
+  input::placeholder {
+    /* color: black; */
+    font-size: small;
+    text-align: start;
+  }
+</style>
