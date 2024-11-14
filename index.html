@@ -3,27 +3,53 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!-- <link rel="stylesheet" href="style.css"> -->
     <title>Cruzadinha Let's Mário | São Paulo Tech School</title>
   </head>
+
   <body>
     <main>
-      <div class="container">
-        <header>
-          <h1>Cruzadinha Let's Mário</h1>
-          <hr />
-        </header>
-        <div class="banner">
-          <div id="div_information"></div>
-          <div class="box_instrucoes" style="display: flex">
-            <span>
-              <h1>Olá, SPTecher 👋</h1>
-              Clique em "Começar o Jogo" para iniciar uma partida. Perguntas
-              serão exibidas na parte inferior do quadro. Insira a sua resposta
-              na caixa de texto e clique em "Verificar" para conferir a sua
-              resposta. A partida acaba quando as 16 questões forem respondidas
-            </span>
+      <header>
+        <div class="container">
+          <h1>Palavras-Cruzadas 🧩</h1>
+        </div>
+      </header>
+      <br /><br />
+
+      <article>
+        <div class="container">
+          <div id="div_game">
+            <div id="div_information">
+              <h2>Instruções do Jogo 🧠</h2>
+              <br />
+              <div class="paragraph">
+                <p>
+                  Clique em "Começar o Jogo" para iniciar uma partida. Perguntas
+                  serão exibidas na parte inferior do quadro. Insira a sua
+                  resposta na caixa de texto e clique em "Verificar" para
+                  conferir a sua resposta. A partida acaba quando as 16 questões
+                  forem respondidas
+                </p>
+              </div>
+            </div>
+            <div id="div_canvasCruzada"></div>
             <br /><br />
-            <button id="bt_start" onclick="start()">Começar o jogo</button>
+            <div style="display: none" id="div_questions">
+              <span id="span_questionText"></span>
+              <input type="text" id="input_answer" placeholder="Sua Reposta" />
+              <br />
+              <button id="button_verify" onclick="verify()" class="button">
+                Verificar
+              </button>
+              <div style="display: none" id="div_verifiedAnswer">
+                <h3>Resposta Correta</h3>
+              </div>
+            </div>
+            <button class="button" id="bt_start" onclick="start()">
+              Começar o Jogo
+            </button>
+            <br />
             <button
               class="button"
               style="display: none"
@@ -33,209 +59,766 @@
               Encerrar o Jogo
             </button>
           </div>
-
-          <!-- ------------------------------------------------------------------------------------ -->
-
-          <div class="container_jogo" style="display: none">
-            <!-- <input maxlength="1" type="text" style="height: 30px; width: 30px; border-radius: 4px; border: none; outline: none; text-align: center; font-family: Poppins; font-size: larger; font-weight: 600"> -->
-          </div>
         </div>
-
-        <footer>
-          <hr />
-          <h1>Desenvolvido por:</h1>
-          <a href="https://github.com/souMarioJunior"><b>@souMarioJunior</b></a>
-          <a href="https://github.com/leticia-rsm"><b>@leticia-rsm</b></a>
-        </footer>
-      </div>
+      </article>
+      <br /><br />
+      <footer>
+        <div class="container">
+          <span
+            >Desenvolvido por
+            <a href="https://github.com/souMarioJunior">@souMarioJunior</a>
+            & <a href="https://github.com/leticia-rsm">@leticia-rsm</a>
+          </span>
+        </div>
+      </footer>
     </main>
   </body>
 </html>
-
-<script>
-  var cruzadinha = [
-    0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0,
-    0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0,
-    0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-    0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0,
-    0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-    0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0,
-    0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0,
-    0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0,
-    0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0,
-    0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0,
-    0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0,
-    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-    0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0,
-    0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0
-  ];
-  
-  var instrucoes = document.querySelector(".box_instrucoes");
-  var containerJogo = document.querySelector(".container_jogo");
-  var legenda = 0;
-  
-  function start() {
-    instrucoes.style.display = "none";
-    containerJogo.style.display = "flex";
-    var linhas = "";
-    var celulas = "";
-    var colunas = "";
-
-    for (var contador = 0; contador < 15; contador++) {
-      legenda++
-      linhas += `
-      <div class="linha_input input_${contador}"></div>
-      `;
-      celulas += `
-            <input maxlength="1" type="text" placeholder="${legenda}">
-      `;
-    }
-
-    for (contador = 0; contador < 15; contador++) {
-      colunas += `<div class="linha_input input_${contador}">${celulas}</div>`;
-    }
-
-    containerJogo.innerHTML = colunas;
-  }
-
-</script>
-
 <style>
   @import url("https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-  body {
-    background-color: #1c1917;
+  * {
     margin: 0;
+    padding: 0;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    /* height: 100vh; */
+    background-color: #18181b;
     font-family: Poppins, sans-serif;
     color: white;
   }
 
   main {
     display: flex;
-    align-items: center;
     flex-direction: column;
-    height: 100vh;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 100vh;
+    /* max-height: 100%; */
+    background-color: #18181b;
+  }
+
+  .container h1 {
+    padding: 0;
+    margin: 0;
+    height: fit-content;
+    padding-top: 2rem;
+    font-size: 42px;
   }
 
   header {
+    padding: 0;
+    margin: 0;
+  }
+
+  header h1 {
     text-align: center;
-    padding-top: 2rem;
+    font-size: 30px;
   }
 
-  .container {
-    display: flex;
-    flex-direction: column;
-    /* border: solid blue; */
-    width: 70%;
-    height: 100vh;
+  table {
+    /* border: 1px #1f618d solid; */
+    /* font-size: 25px; */
+    margin-left: 130px;
+    margin: auto;
+    /* height: 100px; */
   }
 
-  .banner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 90%;
+  #row_1,
+  #row_2,
+  #row_3,
+  #row_4,
+  #row_5,
+  #row_6,
+  #row_7,
+  #row_8,
+  #row_9 {
+    background-color: #1f618d;
+    /* width: 20px; */
+    /* height: 20px; */
   }
-
-  .box_instrucoes {
-    display: flex;
-    flex-direction: column;
-    border: dotted;
-    /* height: 50vh; */
-    width: 50%;
-    border-radius: 12px;
-    padding: 2rem;
-    text-align: justify;
+  .availableCell {
+    /* border: 1px red solid; */
+    /* border-radius: 4px; */
+    /* margin: 2px; */
+    /* padding: 1rem; */
+    border: solid #18181b thin;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    vertical-align: center;
+    color: black;
+    font-weight: 600;
+    /* border-radius: 4px; */
   }
 
   button {
-    padding: 1rem 2rem;
     font-family: Poppins, sans-serif;
-    color: white;
-    font-size: x-large;
-    width: 100%;
+    border: 0px;
     background-color: crimson;
-    border: none;
-    border-radius: 4px;
+    color: #ffffff;
+    padding: 1rem 2rem;
+    font-size: x-large;
+    font-weight: 600;
     opacity: 0.9;
+    border-radius: 12px;
     cursor: pointer;
+    width: 99%;
+    align-self: center;
   }
 
   button:hover {
     opacity: 1;
   }
 
-  footer {
-    display: flex;
-    flex-direction: column;
-    /* border: solid red; */
-    height: 150px;
-    justify-content: center;
-    align-items: center;
-    margin-top: auto;
+  .container {
+    width: 1100px;
+    margin: auto;
+    height: 100%;
   }
 
-  h1 {
+  #div_game {
+    display: flex;
+    flex-direction: column;
+    /* background-color: #ffffff; */
+    margin: auto;
+    align-items: center;
+    /* justify-content: center; */
+    width: 600px;
+    height: fit-content;
+    /* max-height: fit-content; */
+    padding: 3rem;
+    border-radius: 12px;
+    border: dashed;
+  }
+
+  .paragraph {
+    display: flex;
+    text-align: justify;
+  }
+
+  #div_questions {
+    /* display: flex; */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* background-color: #85c1e9; */
+    width: 700px;
+    margin: auto;
+  }
+
+  #div_questions button {
+    width: 100%;
+    background-color: crimson;
+    opacity: 0.9;
+  }
+
+  #div_questions button:hover {
+    opacity: 1;
+  }
+
+  #div_questions input {
+    width: 99%;
+    padding: 1rem 0;
+    text-align: center;
+    font-size: x-large;
+    border-radius: 12px;
+    border: none;
+  }
+
+  #div_questions #span_questionText {
+    font-size: x-large;
+    padding: 3rem 0;
+  }
+
+  #button_verify {
+    width: 100px;
+    margin: auto;
+    background-color: crimson;
+  }
+  #input_answer {
+    font-family: Poppins, sans-serif;
+    width: 100px;
+    margin: auto;
+    font-weight: 600;
+    color: #18181b;
+  }
+
+  .availableCell {
+    background-color: #ffffff;
+    /* border: solid white thin; */
+  }
+
+  footer {
+    height: 80px;
+    background-color: #2c3e50;
+    color: #ffffff;
+    font-size: 15px;
+    margin-bottom: 0;
+    padding: 0;
+    bottom: 0;
+    justify-self: flex-end;
+  }
+  footer p {
+    text-align: center;
+  }
+
+  footer .container {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  #div_information {
+    width: 500px;
+    margin: 0 auto;
+    /* background-color: #85c1e9; */
+    font-size: 20px;
+    /* margin: 0; */
+    /* margin: 0 0 1rem 0; */
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+  }
+
+  #div_questions {
+    display: flex;
+    height: fit-content;
+    width: 100%;
     padding: 0;
     margin: 0;
   }
 
-  hr {
-    width: 100%;
+  #div_canvasCruzada {
+    min-height: 0;
+    max-height: fit-content;
+  }
+
+  #div_verifiedAnswer {
+    width: 500px;
+    height: 70px;
+    margin: auto;
+    text-align: center;
+    font-size: 20px;
+    vertical-align: center;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    margin: 1rem 0 0 0;
+  }
+  .correctAnswer {
+    background-color: #58d68d;
+    color: #196f3d;
+    border: 1px #196f3d solid;
+  }
+  .wrongAnswer {
+    background-color: #ec7063;
+    color: #7b241c;
+    border: 1px #7b241c solid;
   }
 
   a {
     color: white;
-    /* border: solid red; */
-    padding: 0;
-    margin: 0;
+    /* text-decoration: none; */
   }
 
-  .container_jogo {
-    display: flex;
-    flex-direction: column;
-    border: dashed white;
-    border-radius: 8px;
-    height: fit-content;
-    width: 70vh;
-    padding: 1rem;
+  tr {
+    height: 20px;
+    width: 20px;
+    /* background-color: white; */
   }
 
-  .linha_input {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1px;
-    /* border: solid red; */
-    height: 40px;
-    /* box-shadow: 2px 2px 0 red; */
-  }
-
-  input {
-    box-shadow: 3px 3px 0 gainsboro;
-    height: 35px;
-    width: 35px;
-    border-radius: 4px;
-    border: none;
-    outline: none;
-    text-align: center;
-    font-family: Poppins;
-    font-size: larger;
-    font-weight: 600;
-  }
-
-  input:hover {
-    background-color: rgb(255, 190, 203);
-    box-shadow: 3px 3px 0 rgb(255, 74, 110);
-  }
-
-  input::placeholder {
-    /* color: black; */
-    font-size: small;
-    text-align: start;
+  #row_1,
+  #row_2,
+  #row_3,
+  #row_4,
+  #row_5,
+  #row_6,
+  #row_7,
+  #row_8,
+  #row_9 {
+    background-color: transparent;
   }
 </style>
+
+<script>
+  var special_words = [
+    "CPU",
+    "ULA",
+    "Registradores",
+    "RAM",
+    "ROM",
+    "EPROM",
+    "FLASH",
+    "Memória de Massa",
+    "DMA",
+    "CS",
+    "Adress Bus",
+    "Data Bus",
+    "I5",
+    "I7",
+    "Dual Core",
+    "Quad Core",
+  ];
+
+  var questions_list = [
+    "Qual é a sigla para Central Process Unit?",
+    "Um circuto digital que realiza operações lógicas e aritméticas. Qual é o nome deste componente?",
+    "Tipo de memória que se encontra no topo da hierarquia de memória",
+    "Tipo de memória volátil que tem como nome Random Acess Memory. Qual é a sigla deste componente?",
+    "Tipo de memória não volátil que oferece dados apenas para leitura",
+    "Tipo de memória não volátil que precisa ter seu chip exposto a luz ultravioleta para apagar seu conteúdo",
+    "Tipo particular de EEPROM que mantém as informações armazenadas sem a necessidade de uma fonte de energia elétrica",
+    "Tipo de memória que precisa ter seu conteúdo copiado na RAM para poder ser executado pela CPU",
+    "Permite que periféricos acessem diretamente a RAM sem ocupar processamento",
+    "Também conhecido como Slave Select (SS). Usado para selecionar um ou um conjunto de circuitos que estão conectados no computador",
+    "Grupo de linhas ou trilhas usadas para se referir a um endereço físico na memória. O número de trilhas determina a quantidade de endereços na memória física",
+    "Também chamado de Memory Bus. É responsável para carregar os dados.",
+    "Modelo de processador desenvolvido pela Intel qu teve sua primeira versão lançada em setembro de 2009",
+    "Modelo de processador desenvolvido pela Intel qu teve sua primeira versão lançada em novembro de 2008",
+    "Tipo de processador que possui dois processadores ou melhor dizendo ‘dois centros, núcleos ou cores de execução‘ no mesmo circuito integrado.  Cada core tem sua própria memória cash e controlador o que permite que funcione mais efetivamente do que um processador single",
+    "Segue o mesmo princípio de um dual-core, mas agora em teoria tem o dobro da capacidade de processamento",
+  ];
+
+  var filledCell = [
+    2, 20, 38, 133, 134, 135, 59, 77, 95, 113, 131, 149, 167, 185, 203, 221,
+    239, 257, 275, 59, 60, 61, 272, 290, 308, 236, 254, 272, 290, 308, 116, 134,
+    152, 170, 188, 27, 45, 63, 81, 99, 117, 135, 153, 171, 189, 207, 225, 243,
+    261, 279, 297, 203, 204, 205, 312, 313, 270, 271, 272, 273, 274, 275, 276,
+    277, 278, 279, 187, 20, 223, 241, 259, 277, 295, 313, 117, 118, 113, 114,
+    37, 38, 39, 40, 41, 42, 43, 44, 45, 3, 21, 39, 57, 75, 93, 111, 129, 147,
+  ];
+
+  var firstIndex = [
+    2, 133, 59, 59, 272, 236, 116, 27, 203, 312, 270, 187, 117, 113, 37, 3,
+  ];
+
+  var word = {
+    word1: {
+      letter: special_words[0].split(""),
+      position: [2, 20, 38],
+      write: function () {
+        for (i in word.word1.letter) {
+          var findCell = document.querySelector(
+            `#cell_${word.word1.position[i]}`
+          );
+
+          findCell.innerHTML = word.word1.letter[i];
+          console.log(word.word1.letter[i]);
+        }
+        cell_2.innerHTML = '<span style="color: red; font-size:10px">1</span>C';
+      },
+    },
+    word2: {
+      letter: special_words[1].split(""),
+      position: [133, 134, 135],
+      write: function () {
+        for (i in word.word2.letter) {
+          var findCell = document.querySelector(
+            `#cell_${word.word2.position[i]}`
+          );
+
+          findCell.innerHTML = word.word2.letter[i];
+          console.log(word.word2.letter[i]);
+        }
+        cell_133.innerHTML =
+          '<span style="color: red; font-size:10px">2</span>U';
+      },
+    },
+    word3: {
+      letter: special_words[2].split(""),
+      position: [59, 77, 95, 113, 131, 149, 167, 185, 203, 221, 239, 257, 275],
+      write: function () {
+        for (i in word.word3.letter) {
+          var findCell = document.querySelector(
+            `#cell_${word.word3.position[i]}`
+          );
+
+          findCell.innerHTML = word.word3.letter[i];
+          console.log(word.word3.letter[i]);
+        }
+        cell_59.innerHTML =
+          '<span style="color: red; font-size:10px">3_4</span>R';
+        cell_113.innerHTML =
+          '<span style="color: red; font-size:10px">14</span>i';
+      },
+    },
+    word4: {
+      letter: special_words[3].split(""),
+      position: [59, 60, 61],
+      write: function () {
+        for (i in word.word4.letter) {
+          var findCell = document.querySelector(
+            `#cell_${word.word4.position[i]}`
+          );
+
+          findCell.innerHTML = word.word4.letter[i];
+          console.log(word.word4.letter[i]);
+        }
+        cell_59.innerHTML =
+          '<span style="color: red; font-size:10px">3_4</span>R';
+      },
+    },
+    word5: {
+      letter: special_words[4].split(""),
+      position: [272, 290, 308],
+      write: function () {
+        for (i in word.word5.letter) {
+          var findCell = document.querySelector(
+            `#cell_${word.word5.position[i]}`
+          );
+
+          findCell.innerHTML = word.word5.letter[i];
+          console.log(word.word5.letter[i]);
+        }
+        cell_272.innerHTML =
+          '<span style="color: red; font-size:10px">5</span>R';
+      },
+    },
+    word6: {
+      letter: special_words[5].split(""),
+      position: [236, 254, 272, 290, 308],
+      write: function () {
+        for (i in word.word6.letter) {
+          var findCell = document.querySelector(
+            `#cell_${word.word6.position[i]}`
+          );
+
+          findCell.innerHTML = word.word6.letter[i];
+          console.log(word.word6.letter[i]);
+        }
+        cell_236.innerHTML =
+          '<span style="color: red; font-size:10px">6</span>E';
+      },
+    },
+    word7: {
+      letter: special_words[6].split(""),
+      position: [116, 134, 152, 170, 188],
+      write: function () {
+        for (i in word.word7.letter) {
+          var findCell = document.querySelector(
+            `#cell_${word.word7.position[i]}`
+          );
+
+          findCell.innerHTML = word.word7.letter[i];
+          console.log(word.word7.letter[i]);
+        }
+        cell_116.innerHTML =
+          '<span style="color: red; font-size:10px">7</span>F';
+      },
+    },
+    word8: {
+      letter: special_words[7].split(""),
+      position: [
+        27, 45, 63, 81, 99, 117, 135, 153, 171, 189, 207, 225, 243, 261, 279,
+        297,
+      ],
+      write: function () {
+        for (i in word.word8.letter) {
+          var findCell = document.querySelector(
+            `#cell_${word.word8.position[i]}`
+          );
+
+          findCell.innerHTML = word.word8.letter[i];
+          console.log(word.word8.letter[i]);
+        }
+        cell_27.innerHTML =
+          '<span style="color: red; font-size:10px">8</span>M';
+        cell_117.innerHTML =
+          '<span style="color: red; font-size:10px">13</span>i';
+        cell_153.innerHTML = "-";
+        cell_207.innerHTML = "-";
+      },
+    },
+    word9: {
+      letter: special_words[8].split(""),
+      position: [203, 204, 205, 312, 313],
+      write: function () {
+        for (i in word.word9.letter) {
+          var findCell = document.querySelector(
+            `#cell_${word.word9.position[i]}`
+          );
+
+          findCell.innerHTML = word.word9.letter[i];
+          console.log(word.word9.letter[i]);
+        }
+        cell_203.innerHTML =
+          '<span style="color: red; font-size:10px">9</span>D';
+      },
+    },
+    word10: {
+      letter: special_words[9].split(""),
+      position: [312, 313],
+      write: function () {
+        for (i in word.word10.letter) {
+          var findCell = document.querySelector(
+            `#cell_${word.word10.position[i]}`
+          );
+
+          findCell.innerHTML = word.word10.letter[i];
+          console.log(word.word10.letter[i]);
+        }
+        cell_312.innerHTML =
+          '<span style="color: red; font-size:10px">10</span>C';
+      },
+    },
+    word11: {
+      letter: special_words[10].split(""),
+      position: [270, 271, 272, 273, 274, 275, 276, 277, 278, 279],
+      write: function () {
+        for (i in word.word11.letter) {
+          var findCell = document.querySelector(
+            `#cell_${word.word11.position[i]}`
+          );
+
+          findCell.innerHTML = word.word11.letter[i];
+          console.log(word.word11.letter[i]);
+        }
+        cell_270.innerHTML =
+          '<span style="color: red; font-size:10px">11</span>A';
+        cell_276.innerHTML = "-";
+      },
+    },
+    word12: {
+      letter: special_words[11].split(""),
+      position: [187, 205, 223, 241, 259, 277, 295, 313, 117, 118],
+      write: function () {
+        for (i in word.word12.letter) {
+          var findCell = document.querySelector(
+            `#cell_${word.word12.position[i]}`
+          );
+
+          findCell.innerHTML = word.word12.letter[i];
+          console.log(word.word12.letter[i]);
+        }
+        cell_187.innerHTML =
+          '<span style="color: red; font-size:10px">12</span>D';
+        cell_259.innerHTML = "-";
+      },
+    },
+    word13: {
+      letter: special_words[12].split(""),
+      position: [117, 118],
+      write: function () {
+        for (i in word.word13.letter) {
+          var findCell = document.querySelector(
+            `#cell_${word.word13.position[i]}`
+          );
+
+          findCell.innerHTML = word.word13.letter[i];
+          console.log(word.word13.letter[i]);
+        }
+        cell_117.innerHTML =
+          '<span style="color: red; font-size:10px">13</span>I';
+      },
+    },
+    word14: {
+      letter: special_words[13].split(""),
+      position: [113, 114],
+      write: function () {
+        for (i in word.word14.letter) {
+          var findCell = document.querySelector(
+            `#cell_${word.word14.position[i]}`
+          );
+
+          findCell.innerHTML = word.word14.letter[i];
+          console.log(word.word14.letter[i]);
+        }
+        cell_113.innerHTML =
+          '<span style="color: red; font-size:10px">14</span>I';
+      },
+    },
+    word15: {
+      letter: special_words[14].split(""),
+      position: [37, 38, 39, 40, 41, 42, 43, 44, 45],
+      write: function () {
+        for (i in word.word15.letter) {
+          var findCell = document.querySelector(
+            `#cell_${word.word15.position[i]}`
+          );
+
+          findCell.innerHTML = word.word15.letter[i];
+          console.log(word.word15.letter[i]);
+        }
+        cell_37.innerHTML =
+          '<span style="color: red; font-size:10px">15</span>D';
+        cell_41.innerHTML = "-";
+      },
+    },
+    word16: {
+      letter: special_words[15].split(""),
+      position: [3, 21, 39, 57, 75, 93, 111, 129, 147],
+      write: function () {
+        for (i in word.word16.letter) {
+          var findCell = document.querySelector(
+            `#cell_${word.word16.position[i]}`
+          );
+
+          findCell.innerHTML = word.word16.letter[i];
+          console.log(word.word16.letter[i]);
+        }
+        cell_3.innerHTML =
+          '<span style="color: red; font-size:10px">16</span>Q';
+        cell_75.innerHTML = "-";
+      },
+    },
+  };
+
+  var widthTable = 18;
+  var heightTable = 18;
+
+  var cont_correctAnswer = 0;
+
+  function start() {
+    cont_correctAnswer = 0;
+    bt_start.style.display = "none";
+    bt_destroyGame.style.display = "block";
+    div_questions.style.display = "flex";
+    div_information.innerHTML = "";
+    renderGrid();
+    gameSequence();
+  }
+
+  function destroyGrid() {
+    bt_start.style.display = "block";
+    bt_destroyGame.style.display = "none";
+    div_questions.style.display = "none";
+
+    document.querySelector("#div_canvasCruzada").innerHTML = "";
+    pontuation();
+  }
+
+  function gameSequence() {
+    span_questionText.innerHTML = `<b>${cont_correctAnswer + 1}.</b> ${
+      questions_list[cont_correctAnswer]
+    }`;
+
+    if (cont_correctAnswer == 1) {
+      word.word1.write();
+    } else if (cont_correctAnswer == 2) {
+      word.word2.write();
+    } else if (cont_correctAnswer == 3) {
+      word.word3.write();
+    } else if (cont_correctAnswer == 4) {
+      word.word4.write();
+    } else if (cont_correctAnswer == 5) {
+      word.word5.write();
+    } else if (cont_correctAnswer == 6) {
+      word.word6.write();
+    } else if (cont_correctAnswer == 7) {
+      word.word7.write();
+    } else if (cont_correctAnswer == 8) {
+      word.word8.write();
+    } else if (cont_correctAnswer == 9) {
+      word.word9.write();
+    } else if (cont_correctAnswer == 10) {
+      word.word10.write();
+    } else if (cont_correctAnswer == 11) {
+      word.word11.write();
+    } else if (cont_correctAnswer == 12) {
+      word.word12.write();
+    } else if (cont_correctAnswer == 13) {
+      word.word13.write();
+    } else if (cont_correctAnswer == 14) {
+      word.word14.write();
+    } else if (cont_correctAnswer == 15) {
+      word.word15.write();
+    } else if (cont_correctAnswer == 16) {
+      word.word16.write();
+
+      setTimeout(function () {
+        destroyGrid();
+      }, 3000);
+    }
+  }
+
+  function pontuation() {
+    div_information.style.display = "block";
+
+    div_information.innerHTML =
+      '<h1 style="text-align: center;">Parabéns!!</h1><br><br><p style="text-align: center;">Você finalizou o jogo</p><br><br>';
+  }
+
+  function renderGrid() {
+    var tableGame = '<table id="gridGame" cellspacing=0 cellpadding=0>';
+
+    // &nbsp its used to set null value to a cell
+    var cellContent_tableGame = "&nbsp";
+    var cell = 0;
+    for (var row = 1; row <= heightTable; row++) {
+      tableGame += `<tr id="row_${row}">`;
+
+      for (var column = 1; column <= widthTable; column++, cell++) {
+        tableGame +=
+          `<td class="deadCell" id="cell_${cell}">` +
+          cellContent_tableGame +
+          "</td>";
+      }
+      tableGame += "</tr>";
+    }
+    tableGame += "</table>";
+
+    document.querySelector("#div_canvasCruzada").innerHTML = tableGame;
+
+    paintCells();
+  }
+
+  function paintCells() {
+    for (item in filledCell) {
+      var paintCell = document.getElementById(`cell_${filledCell[item]}`);
+      paintCell.removeAttribute("deadCell");
+      paintCell.setAttribute("class", "availableCell");
+    }
+
+    for (var initial = 0; initial < firstIndex.length; initial++) {
+      var paintIndex_cell = document.getElementById(
+        `cell_${firstIndex[initial]}`
+      );
+
+      paintIndex_cell.innerHTML = `<span style="color: red; font-size:10px">${
+        initial + 1
+      }</span>`;
+
+      if (initial == 2 || initial == 3) {
+        paintIndex_cell.innerHTML = `<span style="color: red; font-size:10px">3_4</span>`;
+      }
+    }
+  }
+
+  function verify() {
+    var answer = input_answer.value;
+
+    if (answer != "") {
+      // answer = answer.toLowerCase();
+      if (answer == special_words[cont_correctAnswer]) {
+        div_verifiedAnswer.classList.add("correctAnswer");
+        div_verifiedAnswer.innerHTML = "<br>Resposta Correta!";
+        cont_correctAnswer++;
+      } else {
+        div_verifiedAnswer.classList.add("wrongAnswer");
+        div_verifiedAnswer.innerHTML =
+          "<br>Resposta Incorreta, tente novamente";
+      }
+      setTimeout(function () {
+        div_verifiedAnswer.style.display = "block";
+      }, 500);
+
+      setTimeout(function () {
+        div_verifiedAnswer.style.display = "none";
+      }, 3000);
+
+      input_answer.value = "";
+      gameSequence();
+    } else {
+      alert("Por Favor, digite uma resposta na caixa de texto");
+    }
+  }
+</script>
